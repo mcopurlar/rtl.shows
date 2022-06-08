@@ -13,15 +13,19 @@ The solution contains two projects. One of them is a background service for scra
 `cd <root>\src\Rtl.Shows.Scraper`
 
 `mkdir c:\Database`
+
 `dotnet ef migrations add init`
+
 `dotnet ef database update`
 
 ### 2. Run Scraper
 `cd <root>\src\Rtl.Shows.Scraper`
+
 `dotnet run` 
 
 ### 3. Run WebApi
 `cd <root>\src\Rtl.Shows.WebApi`
+
 `dotnet run` 
 
 
