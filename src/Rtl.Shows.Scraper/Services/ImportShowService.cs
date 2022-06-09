@@ -9,7 +9,7 @@ namespace Rtl.Shows.Scraper.Services;
 class ImportShowService : IImportShowService
 {
     private const int TvMazePagedShowsItemCount = 250;
-    private const int NumberOfConsumers = 50;
+    private const int NumberOfConsumers = 20;
 
     private readonly ITvMazeServiceClient _tvMazeServiceClient;
     private readonly IPagedShowsConsumerFactory _pagedShowsConsumerFactory;
@@ -31,17 +31,15 @@ class ImportShowService : IImportShowService
 
         _pagedShowsProducer = new PagedShowsProducer(_channel.Writer);
     }
-    public async Task ImportShows(CancellationToken stoppingToken)
+    public async Task ImportShows(CancellationToken stoppingToken, int? pageIndex = null)
     {
         var lastInsertedShow = await _dbContext.Shows.OrderByDescending(x => x.LastUpdatedAt).FirstOrDefaultAsync(stoppingToken);
 
-        var pageIndex = 0;
-
-        if (lastInsertedShow != null)
+        if (!pageIndex.HasValue && lastInsertedShow != null)
         {
             pageIndex = lastInsertedShow.Id / TvMazePagedShowsItemCount;
         }
-        
+
         var consumerTasks = new List<Task>();
 
         for (int i = 0; i < NumberOfConsumers; i++)
@@ -51,7 +49,7 @@ class ImportShowService : IImportShowService
 
         Task producerTask = null;
 
-        await foreach (var pagedShows in _tvMazeServiceClient.GetShows(pageIndex, stoppingToken).WithCancellation(stoppingToken))
+        await foreach (var pagedShows in _tvMazeServiceClient.GetShows(pageIndex.GetValueOrDefault(), stoppingToken).WithCancellation(stoppingToken))
         {
             producerTask = _pagedShowsProducer.BeginProducing(pagedShows, stoppingToken);
         }

@@ -30,9 +30,11 @@ class TvMazeShowImporter : BackgroundService
 
                 await importer.ImportShows(stoppingToken);
 
+                importer = scope.ServiceProvider.GetRequiredService<IImportShowService>();
+                await importer.ImportShows(stoppingToken, 0);
+
                 stopWatch.Stop();
                 var elapsed = stopWatch.Elapsed;
-
                 Console.WriteLine($"{elapsed.Hours:00}:{elapsed.Minutes:00}:{elapsed.Seconds:00}.{elapsed.Milliseconds / 10:00}");
             }
 

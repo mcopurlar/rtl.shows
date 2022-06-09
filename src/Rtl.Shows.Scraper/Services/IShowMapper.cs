@@ -1,5 +1,4 @@
 ﻿using Rtl.Shows.Repository;
-using Rtl.Shows.Scraper.Services.ServiceClients.Models;
 using Cast = Rtl.Shows.Scraper.Services.ServiceClients.Models.Cast;
 
 namespace Rtl.Shows.Scraper.Services;

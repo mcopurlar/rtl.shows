@@ -27,7 +27,7 @@ IHost host = Host.CreateDefaultBuilder(args)
             .AddPolicyHandler(TvMazeRetryPolicy.GetRetryPolicy())
             .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromSeconds(60)));
         
-        services.AddScoped<IImportShowService, ImportShowService>();
+        services.AddTransient<IImportShowService, ImportShowService>();
         services.AddScoped<IShowMapper, ShowMapper>();
         services.AddScoped<IPagedShowsConsumerFactory, PagedShowsConsumerFactory>();
 

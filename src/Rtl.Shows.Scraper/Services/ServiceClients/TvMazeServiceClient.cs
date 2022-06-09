@@ -35,17 +35,17 @@ class TvMazeServiceClient : ITvMazeServiceClient
         }
     }
 
-    public async Task<IList<Cast>?> GetCastsByShowId(int showId, CancellationToken cancellationToken = default)
+    public async Task<IList<Cast>> GetCastsByShowId(int showId, CancellationToken cancellationToken = default)
     {
         var httpResponseMessage = await _httpClient.GetAsync($"shows/{showId}/cast", cancellationToken);
 
         var content = await httpResponseMessage.Content.ReadAsStringAsync(cancellationToken);
 
-        if (!httpResponseMessage.IsSuccessStatusCode)
+        if ((int)httpResponseMessage.StatusCode == 404)
         {
-            return null;
+            return new List<Cast>();
         }
-        
+
         var items = JsonConvert.DeserializeObject<IList<Cast>>(content);
 
         Console.WriteLine($"Received <{items?.Count}> <{nameof(Cast)}s> for show <{showId}>");
