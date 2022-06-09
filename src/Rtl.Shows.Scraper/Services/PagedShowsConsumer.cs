@@ -36,15 +36,16 @@ class PagedShowsConsumer
 
                 foreach (var show in pagedShows)
                 {
-                    var showsDbContext = _serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ShowsDbContext>();
-
-                    var existingShow = await showsDbContext.Shows.FindAsync(new[] { (object)show.Id }, cancellationToken: cancellationToken);
-
-                    if (existingShow == null)
+                    using (var showsDbContext = _serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ShowsDbContext>())
                     {
-                        var casts = await _tvMazeServiceClient.GetCastsByShowId(show.Id, cancellationToken);
-                        
-                        await PersistShow(showsDbContext, show, casts, cancellationToken);
+                        var existingShow = await showsDbContext.Shows.FindAsync(new[] { (object)show.Id }, cancellationToken: cancellationToken);
+
+                        if (existingShow == null)
+                        {
+                            var casts = await _tvMazeServiceClient.GetCastsByShowId(show.Id, cancellationToken);
+
+                            await PersistShow(showsDbContext, show, casts, cancellationToken);
+                        }
                     }
                 }
 
