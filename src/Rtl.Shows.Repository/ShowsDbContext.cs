@@ -5,8 +5,8 @@ namespace Rtl.Shows.Repository;
 public class ShowsDbContext : DbContext
 {
     public DbSet<Show> Shows { get; set; }
-    public DbSet<Person> Casts { get; set; }
-    public DbSet<ShowPerson> ShowPersons { get; set; }
+    public DbSet<Cast> Casts { get; set; }
+    public DbSet<ShowCast> ShowCasts { get; set; }
 
     public ShowsDbContext(DbContextOptions<ShowsDbContext> options)
         : base(options)
@@ -16,18 +16,18 @@ public class ShowsDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<ShowPerson>()
-            .HasKey(bc => new { bc.ShowId, bc.PersonId });
+        modelBuilder.Entity<ShowCast>()
+            .HasKey(bc => new { bc.ShowId, PersonId = bc.CastId });
 
-        modelBuilder.Entity<ShowPerson>()
+        modelBuilder.Entity<ShowCast>()
             .HasOne(bc => bc.Show)
-            .WithMany(b => b.ShowPersons)
+            .WithMany(b => b.ShowCasts)
             .HasForeignKey(bc => bc.ShowId);
 
-        modelBuilder.Entity<ShowPerson>()
-            .HasOne(bc => bc.Person)
-            .WithMany(c => c.ShowPersons)
-            .HasForeignKey(bc => bc.PersonId);
+        modelBuilder.Entity<ShowCast>()
+            .HasOne(bc => bc.Cast)
+            .WithMany(c => c.ShowCasts)
+            .HasForeignKey(bc => bc.CastId);
     }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

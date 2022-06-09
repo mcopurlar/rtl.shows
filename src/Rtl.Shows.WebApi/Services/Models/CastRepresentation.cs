@@ -1,6 +1,6 @@
 ﻿namespace Rtl.Shows.WebApi.Services.Models;
 
-public class PersonRepresentation
+public class CastRepresentation
 {
     public int Id { get; set; }
 

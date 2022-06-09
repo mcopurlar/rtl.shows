@@ -4,6 +4,7 @@ using Polly.Retry;
 using Rtl.Shows.Repository;
 using Rtl.Shows.Scraper.Services.ServiceClients;
 using Rtl.Shows.Scraper.Services.ServiceClients.Models;
+using Cast = Rtl.Shows.Scraper.Services.ServiceClients.Models.Cast;
 using Show = Rtl.Shows.Scraper.Services.ServiceClients.Models.Show;
 
 namespace Rtl.Shows.Scraper.Services;

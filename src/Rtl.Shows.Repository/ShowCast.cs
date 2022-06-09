@@ -1,9 +1,9 @@
 ﻿namespace Rtl.Shows.Repository;
 
-public class ShowPerson 
+public class ShowCast 
 {
     public int ShowId { get; set; }
     public Show Show { get; set; }
-    public int PersonId { get; set; }
-    public Person Person { get; set; }
+    public int CastId { get; set; }
+    public Cast Cast { get; set; }
 }

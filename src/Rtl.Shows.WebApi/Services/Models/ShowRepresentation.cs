@@ -6,5 +6,5 @@ public class ShowRepresentation
 
     public string Name { get; set; }
 
-    public IList<PersonRepresentation> Cast { get; set; }
+    public IList<CastRepresentation> Cast { get; set; }
 }

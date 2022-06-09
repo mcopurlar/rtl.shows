@@ -1,11 +1,11 @@
 ﻿namespace Rtl.Shows.Repository;
 
-public class Person : BaseEntity
+public class Cast : BaseEntity
 {
     public string Name { get; set; }
 
     public DateTime? Birthday { get; set; }
 
-    public IList<ShowPerson> ShowPersons { get; set; }
+    public IList<ShowCast> ShowCasts { get; set; }
 
 }

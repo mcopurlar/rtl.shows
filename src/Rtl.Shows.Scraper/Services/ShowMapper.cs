@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Rtl.Shows.Repository;
 using Rtl.Shows.Scraper.Services.ServiceClients.Models;
+using Cast = Rtl.Shows.Scraper.Services.ServiceClients.Models.Cast;
 
 namespace Rtl.Shows.Scraper.Services;
 
@@ -16,21 +17,21 @@ class ShowMapper : IShowMapper
         {
             Id = show.Id,
             Name = show.Name,
-            ShowPersons = normalizedCastList.Select(cast =>
+            ShowCasts = normalizedCastList.Select(c =>
             {
-                var existingPerson = existingCasts.FirstOrDefault(x => x.Id == cast.Person.Id);
+                var existingCast = existingCasts.FirstOrDefault(x => x.Id == c.Person.Id);
 
-                var person = existingPerson ?? new Repository.Person
+                var cast = existingCast ?? new Repository.Cast
                 {
-                    Id = cast.Person.Id,
-                    Birthday = cast.Person.Birthday,
-                    Name = cast.Person.Name
+                    Id = c.Person.Id,
+                    Birthday = c.Person.Birthday,
+                    Name = c.Person.Name
                 };
 
-                return new ShowPerson
+                return new ShowCast
                 {
                     ShowId = show.Id,
-                    Person = person
+                    Cast = cast
                 };
             }).ToList()
         };

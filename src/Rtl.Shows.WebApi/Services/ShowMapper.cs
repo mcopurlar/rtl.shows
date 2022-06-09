@@ -11,11 +11,11 @@ class ShowMapper : IShowMapper
         {
             Id = s.Id,
             Name = s.Name,
-            Cast = s.ShowPersons.Select(sp => new PersonRepresentation
+            Cast = s.ShowCasts.Select(sp => new CastRepresentation
             {
-                Id = sp.Person.Id,
-                Name = sp.Person.Name,
-                Birthday = sp.Person.Birthday?.ToShortDateString()
+                Id = sp.Cast.Id,
+                Name = sp.Cast.Name,
+                Birthday = sp.Cast.Birthday?.ToShortDateString()
             }).ToList()
         }).ToList();
 

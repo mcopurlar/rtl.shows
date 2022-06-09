@@ -28,9 +28,9 @@ class ShowService : IShowService
         }
 
         var shows = await _showsDbContext.Shows
-            .Include(s => s.ShowPersons)
-            .ThenInclude(s => s.Person)
-            .Include(s => s.ShowPersons.OrderByDescending(sp => sp.Person.Birthday))
+            .Include(s => s.ShowCasts)
+            .ThenInclude(s => s.Cast)
+            .Include(s => s.ShowCasts.OrderByDescending(sp => sp.Cast.Birthday))
             .Skip(pageNumber * mappedPageSize)
             .Take(mappedPageSize)
             .ToListAsync();
